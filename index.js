@@ -44,3 +44,30 @@ function vista() {
 }
 // Llamamos a la vista por primera vez para que aparezca algo
 vista();
+
+
+// --- LOOP DEL TIEMPO ---
+
+function pasoDelTiempo() {
+    // Cada 2 segundos (2000ms), la mascota empeora
+    setTimeout(() => {
+        
+        // 1. Empeoramos las estadísticas
+        hambre++;      // Le entra hambre
+        felicidad--;   // Se pone triste
+
+        // 2. Limitamos los valores (para que no sean infinitos)
+        if (hambre > 10) hambre = 10;
+        if (felicidad < 0) felicidad = 0;
+
+        // 3. Actualizamos la pantalla
+        vista();
+
+        // 4. Volvemos a llamar al temporizador (Bucle infinito)
+        pasoDelTiempo();
+
+    }, 2000);
+}
+
+// INICIAR EL TIEMPO
+pasoDelTiempo();
