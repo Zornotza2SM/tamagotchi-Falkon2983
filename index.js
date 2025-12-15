@@ -3,16 +3,28 @@ let hambre = 5;
 let felicidad = 10;
 
 // --- VISTA ---
+// Primero calculamos si está vivo o muerto
+  
+
+
 function vista() {
     // 1. Generamos el HTML
+      let estaMuerto = (hambre >= 10 || felicidad <= 0);
+
+    // Creamos una variable para la cara
+    // Si estaMuerto es true -> calavera. Si es false -> alien.
+    let cara = estaMuerto ? "💀" : "👾";
+    
+    // OPCIONAL: Mensaje de fin de juego
+    let mensaje = estaMuerto ? "<div class='game-over'>GAME OVER</div>" : "";
+
     document.getElementById("app").innerHTML = `
         <div class="pet-screen">
             <h1>PIXEL PET</h1>
-            
             <div class="pet-face">
-                👾 
+                ${cara}
             </div>
-
+            ${mensaje}
             <div class="stats">
                 <div>🍗 Hambre: ${hambre}</div>
                 <div>❤️ Felicidad: ${felicidad}</div>
@@ -28,7 +40,7 @@ function vista() {
     
     document.getElementById("btn-comer").onclick = () => {
         // Lógica: Si el hambre es mayor que 0, restamos 1.
-        if (hambre > 0) {
+        if (!estaMuerto && hambre > 0) {
             hambre--; 
         }
         vista(); // IMPORTANTE: Volvemos a pintar
@@ -36,7 +48,7 @@ function vista() {
 
     document.getElementById("btn-jugar").onclick = () => {
         // Lógica: Si felicidad es menor que 10, sumamos 1.
-        if (felicidad < 10) {
+        if (!estaMuerto && felicidad < 10) {
             felicidad++; // Completa esto
         }
         vista(); // Recargamos la vista
@@ -71,3 +83,7 @@ function pasoDelTiempo() {
 
 // INICIAR EL TIEMPO
 pasoDelTiempo();
+
+
+
+            
