@@ -14,7 +14,9 @@ function vista() {
     // Creamos una variable para la cara
     // Si estaMuerto es true -> calavera. Si es false -> alien.
     let cara = estaMuerto ? "💀" : "👾";
-    
+    let urlCorazon = felicidad < 4 
+        ? "https://lottie.host/a81e5cdc-9cdf-448f-813e-6f2138855299/2QBE9wCrMw.json" // Corazón roto
+        : "https://lottie.host/eb973dc3-e0d2-47dc-bec2-b4cb210cd18a/VvkIyXSOGl.json"; // Corazón latiendo
     // OPCIONAL: Mensaje de fin de juego
     let mensaje = estaMuerto ? "<div class='game-over'>GAME OVER</div>" : "";
 
@@ -26,9 +28,16 @@ function vista() {
             </div>
             ${mensaje}
             <div class="stats">
-                <div>🍗 Hambre: ${hambre}</div>
-                <div>❤️ Felicidad: ${felicidad}</div>
-            </div>
+        <div style="display:flex; align-items:center; flex-direction:column">
+            <lottie-player src="https://lottie.host/d9a1a2c0-e1bf-4dac-a25f-2d34c7cc6b79/knPi8T75UO.json"  background="transparent"  speed="1"  style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            <span>Hambre: ${hambre}</span>
+        </div>
+
+        <div style="display:flex; align-items:center; flex-direction:column">
+            <lottie-player src="${urlCorazon}"  background="transparent"  speed="1"  style="width: 50px; height: 50px;" loop autoplay></lottie-player>
+            <span>Felicidad: ${felicidad}</span>
+        </div>
+    </div>
 
             <div class="controls">
                 <button class="boton" id="btn-comer">Dar Comida</button>
