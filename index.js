@@ -1,20 +1,22 @@
 // --- MODELO ---
 let hambre = 5;
 let felicidad = 10;
+let comiendo = false; // ¿Está ocupado comiendo?
+let jugando = false;  // ¿Está ocupado jugando?
 
 // --- VISTA ---
 // Primero calculamos si está vivo o muerto
-  
+
 
 
 function vista() {
     // 1. Generamos el HTML
-      let estaMuerto = (hambre >= 10 || felicidad <= 0);
+    let estaMuerto = (hambre >= 10 || felicidad <= 0);
 
     // Creamos una variable para la cara
     // Si estaMuerto es true -> calavera. Si es false -> alien.
     let cara = estaMuerto ? "💀" : "👾";
-    let urlCorazon = felicidad < 4 
+    let urlCorazon = felicidad < 4
         ? "https://lottie.host/a81e5cdc-9cdf-448f-813e-6f2138855299/2QBE9wCrMw.json" // Corazón roto
         : "https://lottie.host/eb973dc3-e0d2-47dc-bec2-b4cb210cd18a/VvkIyXSOGl.json"; // Corazón latiendo
     // OPCIONAL: Mensaje de fin de juego
@@ -40,27 +42,47 @@ function vista() {
     </div>
 
             <div class="controls">
-                <button class="boton" id="btn-comer">Dar Comida</button>
-                <button class="boton" id="btn-jugar">Jugar</button>
-            </div>
-        </div>
+        <button class="boton" id="btn-comer" ${comiendo ? "disabled" : ""}>
+            ${comiendo ? "Masticando..." : "Dar Comida"}
+        </button>
+
+        <button class="boton" id="btn-jugar" ${jugando ? "disabled" : ""}>
+            ${jugando ? "Cansado..." : "Jugar"}
+        </button>
+    </div>
     `;
     // --- ACTUALIZACIÓN (Eventos) ---
-    
+
     document.getElementById("btn-comer").onclick = () => {
-        // Lógica: Si el hambre es mayor que 0, restamos 1.
         if (!estaMuerto && hambre > 0) {
-            hambre--; 
+            hambre--;
+
+            // 1. Bloqueamos el botón
+            comiendo = true;
+            vista(); // Pintamos el botón gris ("Masticando...")
+
+            // 2. Iniciamos el temporizador de 1 segundo (1000ms)
+            setTimeout(() => {
+                comiendo = false; // Desbloqueamos
+                vista(); // Pintamos el botón amarillo otra vez
+            }, 1000);
         }
-        vista(); // IMPORTANTE: Volvemos a pintar
     }
 
     document.getElementById("btn-jugar").onclick = () => {
         // Lógica: Si felicidad es menor que 10, sumamos 1.
         if (!estaMuerto && felicidad < 10) {
             felicidad++; // Completa esto
+
+
+            jugando = true;
+            vista();
         }
-        vista(); // Recargamos la vista
+        setTimeout(() => {
+            jugando = false; // Desbloqueamos
+            vista(); // Pintamos el botón amarillo otra vez
+        }, 1000);
+        // Recargamos la vista
     }
 }
 // Llamamos a la vista por primera vez para que aparezca algo
@@ -72,7 +94,7 @@ vista();
 function pasoDelTiempo() {
     // Cada 2 segundos (2000ms), la mascota empeora
     setTimeout(() => {
-        
+
         // 1. Empeoramos las estadísticas
         hambre++;      // Le entra hambre
         felicidad--;   // Se pone triste
@@ -95,4 +117,3 @@ pasoDelTiempo();
 
 
 
-            
